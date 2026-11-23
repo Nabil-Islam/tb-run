@@ -15,7 +15,7 @@ THREADS=2
 PROFILE="slurm.punim1703"
 DEFAULT_TMP="tmpdir='/tmp'"
 JOBS="${JOBS:-150}"   # max SLURM jobs running/queued at once (one sample per job)
-CMD="snakemake --profile $PROFILE --jobs $JOBS --default-resources \"$DEFAULT_TMP\" --local-cores $THREADS --use-conda --conda-frontend conda --keep-going --rerun-incomplete --latency-wait 60 --rerun-triggers mtime"
+CMD="snakemake --profile $PROFILE --jobs $JOBS --default-resources \"$DEFAULT_TMP\" --local-cores $THREADS --use-conda --conda-frontend mamba --keep-going --rerun-incomplete --latency-wait 60 --rerun-triggers mtime"
 
 ssubmit -t "$TIME" -m "$MEMORY" -o "$LOG_DIR"/"$JOB_NAME".o \
   -e "$LOG_DIR"/"$JOB_NAME".e "$JOB_NAME" "$CMD" -- -c "$THREADS" -p sapphire
