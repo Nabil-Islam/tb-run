@@ -1,10 +1,14 @@
+name: tbrun
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  # no "defaults": newer conda refuses it until its Terms of Service are accepted
 dependencies:
   - python=3.10
   - ca-certificates
   - openssl
-  - snakemake=7
-  - pandas=1.4
+  - snakemake-minimal=7.32.4
+  - pulp<2.8          # pulp 2.8 breaks snakemake 7's scheduler
+  - pandas=1.5
+  - numpy<2           # pandas 1.5 is not built for numpy 2
+  - requests          # prepare_v3_samplesheet.py --resolve, ENA checks
