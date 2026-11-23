@@ -1,0 +1,9 @@
+name: tbprofiler_v7
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.12
+  - tb-profiler=7.0.0   # default db: who_v3 (WHO catalogue 3rd edition, lightly customised)
+  - fastq-dl=4.0.1      # paired runs: downloads only _1/_2, skips orphan reads
+  - setuptools<71

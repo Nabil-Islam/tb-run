@@ -4,6 +4,7 @@ from itertools import product
 from snakemake.utils import min_version
 import pandas as pd
 import glob
+import sys
 
 # =====================================
 # Workflow config items
@@ -48,11 +49,31 @@ EXT_TECH = "illumina"   # tb-profiler --platform; must be illumina or nanopore
 # stop {tech} from matching anything else
 wildcard_constraints:
     tech="illumina|nanopore",
+    sample="[^/]+",
+
+# =====================================
+# WHO v3 rerun (TB-Profiler 7.0.0): one job per sample, runs merged
+V3 = config["v3_rerun"]
+V3_DIR = RESULTS / f"amr_predictions/tbprofiler_{V3['tag']}" / V3["tech"]
+V3_RUNS = {}
+if Path(V3["samplesheet"]).exists():
+    _v3 = pd.read_csv(V3["samplesheet"], low_memory=False, dtype=str)
+    _v3 = _v3.dropna(subset=[V3["sample_col"], V3["runs_col"]])
+    _dups = _v3[V3["sample_col"]][_v3[V3["sample_col"]].duplicated()].unique()
+    if len(_dups):
+        raise ValueError(f"{len(_dups)} duplicated sample IDs in {V3['samplesheet']}, e.g. {list(_dups[:5])}")
+    for _s, _r in zip(_v3[V3["sample_col"]], _v3[V3["runs_col"]]):
+        V3_RUNS[_s.strip()] = [x.strip() for x in _r.split(";") if x.strip()]
+else:
+    print(f"WARNING: {V3['samplesheet']} not found; WHO v3 rerun targets skipped", file=sys.stderr)
 
 # =====================================
 target_files = set()
-for tech in TECHS:
-  target_files.add(RESULTS / f"amr_predictions/tbprofiler/{tech}/summary.csv")
+if V3_RUNS:
+    target_files.add(V3_DIR / "summary.csv")
+if config.get("run_v6", False):   # original TB-Profiler 6.6.6 runs
+    for tech in TECHS:
+        target_files.add(RESULTS / f"amr_predictions/tbprofiler/{tech}/summary.csv")
 
 # =====================================
 rule all:
@@ -191,3 +212,125 @@ rule combine_tbprofiler_reports:
         mem_mb=GB,
     script:
         str(SCRIPTS / "combine_tbprofiler_reports.py")
+
+
+# =====================================
+# WHO v3 rerun
+
+rule profile_sample_v3:
+    output:
+        report=V3_DIR / "{sample}/{sample}.results.json",
+        vcf=V3_DIR / "{sample}/{sample}.targets.vcf.gz",
+        run_info=V3_DIR / "{sample}/run_info.tsv",
+    log:
+        LOGS / f"profile_sample_v3/{V3['tag']}/{{sample}}.log",
+    conda:
+        ENVS / "tbprofiler_v7.yaml"
+    threads: 4
+    retries: 2
+    resources:
+        mem_mb=lambda wildcards, attempt: attempt * int(8 * GB),
+        runtime="4h",
+    params:
+        runs=lambda wildcards: " ".join(V3_RUNS[wildcards.sample]),
+        db=V3["db"],
+        tech=V3["tech"],
+    group:
+        "qc"
+    shell:
+        """
+        exec 2>> {log}
+        echo "== $(date) sample={wildcards.sample} runs={params.runs}" >&2
+        tmpdir=$(mktemp -d -p "${{TMPDIR:-/tmp}}")
+        trap 'rm -rf "$tmpdir"' EXIT
+        cd "$tmpdir"
+        shopt -s nullglob
+
+        r1s=(); r2s=(); ses=()
+        for run in {params.runs}; do
+            d="dl/$run"; mkdir -p "$d"
+            for provider in ena sra; do
+                fastq-dl -a "$run" --provider $provider --only-provider -o "$d" --verbose >&2 || true
+                for f in "$d"/*.fastq.gz; do
+                    gzip -t "$f" 2>/dev/null || {{ echo "removing corrupt $f" >&2; rm -f "$f"; }}
+                done
+                if {{ [ -s "$d/${{run}}_1.fastq.gz" ] && [ -s "$d/${{run}}_2.fastq.gz" ]; }} || [ -s "$d/${{run}}.fastq.gz" ]; then
+                    break
+                fi
+                echo "no usable reads for $run from $provider" >&2
+                rm -f "$d"/*.fastq.gz
+            done
+
+            # run metadata (keep one header) + platform check
+            if [ -s "$d/fastq-run-info.tsv" ]; then
+                [ -s run_info.tsv ] || head -n 1 "$d/fastq-run-info.tsv" > run_info.tsv
+                tail -n +2 "$d/fastq-run-info.tsv" >> run_info.tsv
+                platform=$(python3 -c "import csv,sys; r=list(csv.DictReader(open(sys.argv[1]),delimiter='\\t')); print(r[0].get('instrument_platform',''))" "$d/fastq-run-info.tsv")
+                case "${{platform^^}}" in
+                    *ILLUMINA*) expected=illumina ;;
+                    *OXFORD*|*NANOPORE*) expected=nanopore ;;
+                    *) expected=unknown ;;
+                esac
+                if [ "$expected" != "{params.tech}" ]; then
+                    echo "platform '$platform' for $run does not match {params.tech}" >&2
+                    exit 1
+                fi
+            fi
+
+            if [ -s "$d/${{run}}_1.fastq.gz" ] && [ -s "$d/${{run}}_2.fastq.gz" ]; then
+                r1s+=("$d/${{run}}_1.fastq.gz"); r2s+=("$d/${{run}}_2.fastq.gz")
+            elif [ -s "$d/${{run}}.fastq.gz" ]; then
+                ses+=("$d/${{run}}.fastq.gz")
+            else
+                echo "No usable reads for $run: $(ls "$d")" >&2
+                exit 1
+            fi
+        done
+
+        if [ ${{#r1s[@]}} -gt 0 ] && [ ${{#ses[@]}} -gt 0 ]; then
+            echo "mixed paired/single-end runs for {wildcards.sample}; not merging" >&2
+            exit 1
+        fi
+
+        # merge runs (concatenated gzip is valid gzip)
+        if [ ${{#r1s[@]}} -gt 0 ]; then
+            cat "${{r1s[@]}}" > R1.fastq.gz; cat "${{r2s[@]}}" > R2.fastq.gz
+            rm -f "${{r1s[@]}}" "${{r2s[@]}}"
+            input_arg=("-1" "R1.fastq.gz" "-2" "R2.fastq.gz")
+        else
+            cat "${{ses[@]}}" > SE.fastq.gz; rm -f "${{ses[@]}}"
+            input_arg=("-1" "SE.fastq.gz")
+        fi
+
+        tb-profiler profile "${{input_arg[@]}}" --db {params.db} --platform {params.tech} \
+            -p {wildcards.sample} -t {threads} --no_trim --temp "$tmpdir" --dir "$tmpdir/out" >&2
+
+        json="$tmpdir/out/results/{wildcards.sample}.results.json"
+        mapped=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['qc'].get('num_reads_mapped', 1))" "$json")
+        if [ "$mapped" = "0" ]; then
+            echo "0 reads mapped for {wildcards.sample}; treating as a failed job" >&2
+            exit 1
+        fi
+
+        mkdir -p "$(dirname {output.report})"
+        mv "$json" {output.report}
+        mv "$tmpdir/out/vcf/{wildcards.sample}.targets.vcf.gz" {output.vcf}
+        if [ -s run_info.tsv ]; then mv run_info.tsv {output.run_info}; else touch {output.run_info}; fi
+        """
+
+
+rule combine_v3_reports:
+    input:
+        reports=lambda wildcards: [V3_DIR / f"{s}/{s}.results.json" for s in V3_RUNS],
+    output:
+        report=V3_DIR / "summary.csv",
+    log:
+        LOGS / f"combine_v3_reports/{V3['tag']}.log",
+    params:
+        runs={s: ";".join(r) for s, r in V3_RUNS.items()},
+        tech=V3["tech"],
+    resources:
+        mem_mb=4 * GB,
+        runtime="4h",
+    script:
+        str(SCRIPTS / "combine_v3_reports.py")
