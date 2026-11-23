@@ -8,9 +8,11 @@ extended_samplesheet: "config/samplesheets/nejmc88k.csv"
 
 # --- WHO v3 rerun (TB-Profiler 7.0.0) ---
 v3_rerun:
-  samplesheet: "config/samplesheets/nejmc88k_full.csv"  # full 88k list; one row per sample
-  sample_col: "BioSample"      # unique per row; used as the output folder name
-  runs_col: "Accession"        # run accession(s); several runs separated by ";"
+  # built by workflow/scripts/prepare_v3_samplesheet.py (Goig 81k + phenotyped + HDR)
+  samplesheet: "config/samplesheets/v3_rerun.samplesheet.csv"
+  sample_col: "sample_id"      # unique per row; used as the output folder name
+  runs_col: "runs"             # run accession(s); several runs separated by ";"
+  biosample_col: "biosample"
   tech: "illumina"             # tb-profiler --platform
   db: "who_v3"                 # tb-profiler --db
   tag: "who_v3"                # results go under results/amr_predictions/tbprofiler_<tag>/

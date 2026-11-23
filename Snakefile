@@ -56,14 +56,17 @@ wildcard_constraints:
 V3 = config["v3_rerun"]
 V3_DIR = RESULTS / f"amr_predictions/tbprofiler_{V3['tag']}" / V3["tech"]
 V3_RUNS = {}
+V3_BIOSAMPLE = {}
 if Path(V3["samplesheet"]).exists():
     _v3 = pd.read_csv(V3["samplesheet"], low_memory=False, dtype=str)
     _v3 = _v3.dropna(subset=[V3["sample_col"], V3["runs_col"]])
     _dups = _v3[V3["sample_col"]][_v3[V3["sample_col"]].duplicated()].unique()
     if len(_dups):
         raise ValueError(f"{len(_dups)} duplicated sample IDs in {V3['samplesheet']}, e.g. {list(_dups[:5])}")
-    for _s, _r in zip(_v3[V3["sample_col"]], _v3[V3["runs_col"]]):
+    _bs = _v3.get(V3.get("biosample_col", ""), pd.Series([""] * len(_v3), index=_v3.index)).fillna("")
+    for _s, _r, _b in zip(_v3[V3["sample_col"]], _v3[V3["runs_col"]], _bs):
         V3_RUNS[_s.strip()] = [x.strip() for x in _r.split(";") if x.strip()]
+        V3_BIOSAMPLE[_s.strip()] = _b.strip()
 else:
     print(f"WARNING: {V3['samplesheet']} not found; WHO v3 rerun targets skipped", file=sys.stderr)
 
@@ -328,6 +331,7 @@ rule combine_v3_reports:
         LOGS / f"combine_v3_reports/{V3['tag']}.log",
     params:
         runs={s: ";".join(r) for s, r in V3_RUNS.items()},
+        biosamples=V3_BIOSAMPLE,
         tech=V3["tech"],
     resources:
         mem_mb=4 * GB,

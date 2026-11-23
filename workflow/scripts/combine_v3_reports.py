@@ -27,7 +27,7 @@ QC_FIELDS = [
 HEADER = [
     "run", "biosample", "bioproject", "technology", "tool", "drug",
     "prediction", "lineage", "mutations", "resistance_level",
-    *QC_FIELDS, "tbprofiler_version", "db_name", "db_commit",
+    *QC_FIELDS, "tbprofiler_version", "db_name", "db_commit", "sample_id",
 ]
 
 
@@ -58,6 +58,7 @@ def calls_from_dr_variants(data):
 
 
 runs_by_sample = snakemake.params.runs
+biosample_by_sample = getattr(snakemake.params, "biosamples", None) or {}
 tech = snakemake.params.tech
 n = 0
 
@@ -80,7 +81,8 @@ with open(snakemake.output.report, "w", newline="") as fout:
         db = pipeline.get("db_version", data.get("db_version", {})) or {}
         common = dict(
             run=runs_by_sample.get(sample, ""),
-            biosample=sample,
+            biosample=biosample_by_sample.get(sample) or sample,
+            sample_id=sample,
             bioproject="",
             technology=tech,
             tool="tbprofiler",
