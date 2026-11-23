@@ -1,0 +1,14 @@
+*.json
+*.e 
+*.o
+*.err
+*.out
+.snakemake/
+results/
+logs/
+*.sif
+*.tar.gz
+tmp/
+*.sif
+*.tar.gz
+tmp/

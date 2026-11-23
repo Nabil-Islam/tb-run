@@ -1,0 +1,6 @@
+Bootstrap: docker 
+From: quay.io/mbhall88/fastq-dl:df88008
+
+%post
+    #Update conda and install tb-prof 
+    /opt/conda/bin/conda install -y -c bioconda tb-profiler=6.6.6 python=3.10.14 
