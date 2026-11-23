@@ -12,3 +12,4 @@ tmp/
 *.sif
 *.tar.gz
 tmp/
+miniforge3/
