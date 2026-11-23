@@ -1,145 +1,60 @@
 sample_id,biosample,accession,source,reason
-G00141,,SRX00772,goig,no run accession (not resolved)
-G00142,,SRX007726,goig,no run accession (not resolved)
-G00143,,SRX007723,goig,no run accession (not resolved)
-G00144,,SRX007725,goig,no run accession (not resolved)
-G00146,,SRX007721,goig,no run accession (not resolved)
-G00148,,SRX007722,goig,no run accession (not resolved)
-G00149,,SRX012272,goig,no run accession (not resolved)
-G00159,,SRX007715,goig,no run accession (not resolved)
-G00736,,PRJEB5925,goig,no run accession (not resolved)
-G00786,,PRJEB5925,goig,no run accession (not resolved)
-G00806,,PRJEB5925,goig,no run accession (not resolved)
-G00857,,ERS635608,goig,no run accession (not resolved)
-G00956,,PRJEB5148,goig,no run accession (not resolved)
-G02413,SAMEA3715654,"""SRR8237431;ERR1367637""",goig,no run accession (not resolved)
-G02538,SAMEA4752945,,goig,no run accession (not resolved)
-G02545,SAMEA4752946,,goig,no run accession (not resolved)
-G04868,SAMN10185848,,goig,no run accession (not resolved)
-G04870,SAMN10185849,,goig,no run accession (not resolved)
-G04871,SAMN10185850,,goig,no run accession (not resolved)
-G04872,SAMN10185851,,goig,no run accession (not resolved)
-G04873,SAMN10185852,,goig,no run accession (not resolved)
-G04874,SAMN10185853,,goig,no run accession (not resolved)
-G04875,SAMN10185854,,goig,no run accession (not resolved)
-G04876,SAMN10185855,,goig,no run accession (not resolved)
-G04877,SAMN10185856,,goig,no run accession (not resolved)
-G04878,SAMN10185857,,goig,no run accession (not resolved)
-G04879,SAMN10185858,,goig,no run accession (not resolved)
-G04880,SAMN10185859,,goig,no run accession (not resolved)
-G04881,SAMN10185860,,goig,no run accession (not resolved)
-G04882,SAMN10185861,,goig,no run accession (not resolved)
-G04883,SAMN10185862,,goig,no run accession (not resolved)
-G04884,SAMN10185863,,goig,no run accession (not resolved)
-G04885,SAMN10185864,,goig,no run accession (not resolved)
-G04886,SAMN10185865,,goig,no run accession (not resolved)
-G04887,SAMN10185866,,goig,no run accession (not resolved)
-G04888,SAMN10185867,,goig,no run accession (not resolved)
-G04889,SAMN10185868,,goig,no run accession (not resolved)
-G04890,SAMN10185869,,goig,no run accession (not resolved)
-G04891,SAMN10185870,,goig,no run accession (not resolved)
-G04893,SAMN10185871,,goig,no run accession (not resolved)
-G04894,SAMN10185872,,goig,no run accession (not resolved)
-G04895,SAMN10185873,,goig,no run accession (not resolved)
-G04896,SAMN10185874,,goig,no run accession (not resolved)
-G04897,SAMN10185875,,goig,no run accession (not resolved)
-G04917,SAMN10185876,,goig,no run accession (not resolved)
-G04918,SAMN10185877,,goig,no run accession (not resolved)
-G04919,SAMN10185878,,goig,no run accession (not resolved)
-G04920,SAMN10185879,,goig,no run accession (not resolved)
-G04921,SAMN10185880,,goig,no run accession (not resolved)
-G04922,SAMN10185881,,goig,no run accession (not resolved)
-G04923,SAMN10185882,,goig,no run accession (not resolved)
-G04925,SAMN10185883,,goig,no run accession (not resolved)
-G04926,SAMN10185884,,goig,no run accession (not resolved)
-G04927,SAMN10185885,,goig,no run accession (not resolved)
-G04929,SAMN10185886,,goig,no run accession (not resolved)
-G04930,SAMN10185887,,goig,no run accession (not resolved)
-G04931,SAMN10185888,,goig,no run accession (not resolved)
-G04932,SAMN10185889,,goig,no run accession (not resolved)
-G04933,SAMN10185890,,goig,no run accession (not resolved)
-G04934,SAMN10185891,,goig,no run accession (not resolved)
-G04936,SAMN10185892,,goig,no run accession (not resolved)
-G04937,SAMN10185893,,goig,no run accession (not resolved)
-G04938,SAMN10185894,,goig,no run accession (not resolved)
-G04939,SAMN10185895,,goig,no run accession (not resolved)
-G04940,SAMN10185896,,goig,no run accession (not resolved)
-G04941,SAMN10185897,,goig,no run accession (not resolved)
-G04942,SAMN10185898,,goig,no run accession (not resolved)
-G04943,SAMN10185899,,goig,no run accession (not resolved)
-G04944,SAMN10185900,,goig,no run accession (not resolved)
-G04945,SAMN10185901,,goig,no run accession (not resolved)
-G04946,SAMN10185902,,goig,no run accession (not resolved)
-G04947,SAMN10185903,,goig,no run accession (not resolved)
-G04948,SAMN10185904,,goig,no run accession (not resolved)
-G04949,SAMN10185905,,goig,no run accession (not resolved)
-G04950,SAMN10185906,,goig,no run accession (not resolved)
-G04951,SAMN10185907,,goig,no run accession (not resolved)
-G04952,SAMN10185908,,goig,no run accession (not resolved)
-G04953,SAMN10185909,,goig,no run accession (not resolved)
-G04954,SAMN10185910,,goig,no run accession (not resolved)
-G04955,SAMN10185911,,goig,no run accession (not resolved)
-G04956,SAMN10185912,,goig,no run accession (not resolved)
-G04957,SAMN10185913,,goig,no run accession (not resolved)
-G04958,SAMN10185914,,goig,no run accession (not resolved)
-G04959,SAMN10185915,,goig,no run accession (not resolved)
-G04960,SAMN10185916,,goig,no run accession (not resolved)
-G06498,SAMEA2533583,"""ERR550946;ERR550947""",goig,no run accession (not resolved)
-G21324,,"""ERR2704689;ERR2704705""",goig,no run accession (not resolved)
-G21391,SAMN14255409,,goig,no run accession (not resolved)
-G23164,,PRJEB27366,goig,no run accession (not resolved)
-G23188,,PRJEB27366,goig,no run accession (not resolved)
-G23204,,PRJEB27366,goig,no run accession (not resolved)
-G23206,,PRJEB27366,goig,no run accession (not resolved)
-G23213,,PRJEB27366,goig,no run accession (not resolved)
-G23217,,PRJEB27366,goig,no run accession (not resolved)
-G23218,,PRJEB27366,goig,no run accession (not resolved)
-G23223,,PRJEB27366,goig,no run accession (not resolved)
-G23230,,PRJEB27366,goig,no run accession (not resolved)
-G23234,,PRJEB27366,goig,no run accession (not resolved)
-G23236,,PRJEB27366,goig,no run accession (not resolved)
-G23237,,PRJEB27366,goig,no run accession (not resolved)
-G23239,,PRJEB27366,goig,no run accession (not resolved)
-G23241,,PRJEB27366,goig,no run accession (not resolved)
-G23243,,PRJEB27366,goig,no run accession (not resolved)
-G23244,,PRJEB27366,goig,no run accession (not resolved)
-G23246,,PRJEB27366,goig,no run accession (not resolved)
-G23250,,PRJEB27366,goig,no run accession (not resolved)
-G23252,,PRJEB27366,goig,no run accession (not resolved)
-G23254,,PRJEB27366,goig,no run accession (not resolved)
-G23256,,PRJEB27366,goig,no run accession (not resolved)
-G23257,,PRJEB27366,goig,no run accession (not resolved)
-G23259,,PRJEB27366,goig,no run accession (not resolved)
-G23260,,PRJEB27366,goig,no run accession (not resolved)
-G23261,,PRJEB27366,goig,no run accession (not resolved)
-G23265,,PRJEB27366,goig,no run accession (not resolved)
-G23266,,PRJEB27366,goig,no run accession (not resolved)
-G23267,,PRJEB27366,goig,no run accession (not resolved)
-G23268,,PRJEB27366,goig,no run accession (not resolved)
-G23269,,PRJEB27366,goig,no run accession (not resolved)
-G23271,,PRJEB27366,goig,no run accession (not resolved)
-G23272,,PRJEB27366,goig,no run accession (not resolved)
-G23274,,PRJEB27366,goig,no run accession (not resolved)
-G23275,,PRJEB27366,goig,no run accession (not resolved)
-G23276,,PRJEB27366,goig,no run accession (not resolved)
-G23278,,PRJEB27366,goig,no run accession (not resolved)
-G23282,,PRJEB27366,goig,no run accession (not resolved)
-G23284,,PRJEB27366,goig,no run accession (not resolved)
-G23285,,PRJEB27366,goig,no run accession (not resolved)
-G23287,,PRJEB27366,goig,no run accession (not resolved)
-G23288,,PRJEB27366,goig,no run accession (not resolved)
-G23289,,PRJEB27366,goig,no run accession (not resolved)
-G23291,,PRJEB27366,goig,no run accession (not resolved)
-G23292,,PRJEB27366,goig,no run accession (not resolved)
-G23293,,PRJEB27366,goig,no run accession (not resolved)
-G23294,,PRJEB27366,goig,no run accession (not resolved)
-G23296,,PRJEB27366,goig,no run accession (not resolved)
-G23297,,PRJEB27366,goig,no run accession (not resolved)
-G23298,,PRJEB27366,goig,no run accession (not resolved)
-G32303,SAMN16522143,,goig,no run accession (not resolved)
-G66359,SAMEA11207407,,goig,no run accession (not resolved)
-G700177,"""L2.2.1/Central_Asia","L4.3.3""",goig,no run accession (not resolved)
-G700326,SAMEA11207411,,goig,no run accession (not resolved)
+G00141,,SRX00772,goig,no run accession
+G00736,,PRJEB5925,goig,no run accession
+G00786,,PRJEB5925,goig,no run accession
+G00806,,PRJEB5925,goig,no run accession
+G00956,,PRJEB5148,goig,no run accession
+G21324,,"""ERR2704689;ERR2704705""",goig,no run accession
+G23164,,PRJEB27366,goig,no run accession
+G23188,,PRJEB27366,goig,no run accession
+G23204,,PRJEB27366,goig,no run accession
+G23206,,PRJEB27366,goig,no run accession
+G23213,,PRJEB27366,goig,no run accession
+G23217,,PRJEB27366,goig,no run accession
+G23218,,PRJEB27366,goig,no run accession
+G23223,,PRJEB27366,goig,no run accession
+G23230,,PRJEB27366,goig,no run accession
+G23234,,PRJEB27366,goig,no run accession
+G23236,,PRJEB27366,goig,no run accession
+G23237,,PRJEB27366,goig,no run accession
+G23239,,PRJEB27366,goig,no run accession
+G23241,,PRJEB27366,goig,no run accession
+G23243,,PRJEB27366,goig,no run accession
+G23244,,PRJEB27366,goig,no run accession
+G23246,,PRJEB27366,goig,no run accession
+G23250,,PRJEB27366,goig,no run accession
+G23252,,PRJEB27366,goig,no run accession
+G23254,,PRJEB27366,goig,no run accession
+G23256,,PRJEB27366,goig,no run accession
+G23257,,PRJEB27366,goig,no run accession
+G23259,,PRJEB27366,goig,no run accession
+G23260,,PRJEB27366,goig,no run accession
+G23261,,PRJEB27366,goig,no run accession
+G23265,,PRJEB27366,goig,no run accession
+G23266,,PRJEB27366,goig,no run accession
+G23267,,PRJEB27366,goig,no run accession
+G23268,,PRJEB27366,goig,no run accession
+G23269,,PRJEB27366,goig,no run accession
+G23271,,PRJEB27366,goig,no run accession
+G23272,,PRJEB27366,goig,no run accession
+G23274,,PRJEB27366,goig,no run accession
+G23275,,PRJEB27366,goig,no run accession
+G23276,,PRJEB27366,goig,no run accession
+G23278,,PRJEB27366,goig,no run accession
+G23282,,PRJEB27366,goig,no run accession
+G23284,,PRJEB27366,goig,no run accession
+G23285,,PRJEB27366,goig,no run accession
+G23287,,PRJEB27366,goig,no run accession
+G23288,,PRJEB27366,goig,no run accession
+G23289,,PRJEB27366,goig,no run accession
+G23291,,PRJEB27366,goig,no run accession
+G23292,,PRJEB27366,goig,no run accession
+G23293,,PRJEB27366,goig,no run accession
+G23294,,PRJEB27366,goig,no run accession
+G23296,,PRJEB27366,goig,no run accession
+G23297,,PRJEB27366,goig,no run accession
+G23298,,PRJEB27366,goig,no run accession
+G700177,"""L2.2.1/Central_Asia","L4.3.3""",goig,no run accession
 G01018,SAMEA2419109,ERR464782,goig,duplicate of another genome ID
 G01199,SAMEA3671331,ERR1193663,goig,duplicate of another genome ID
 G03991,SAMEA3671596,ERR1199121,goig,duplicate of another genome ID
@@ -160,6 +75,7 @@ G26439,SAMEA3721543,ERR1200617,goig,duplicate of another genome ID
 G26457,SAMEA3721561,ERR1200635,goig,duplicate of another genome ID
 G26462,SAMEA3721566,ERR1200640,goig,duplicate of another genome ID
 G26483,SAMEA3721588,ERR1200662,goig,duplicate of another genome ID
+G32593,,SRR12882086,goig,duplicate of another genome ID
 G36610,SAMEA1523667,ERR125598,goig,duplicate of another genome ID
 G36611,SAMEA1523649,ERR125599,goig,duplicate of another genome ID
 G36612,SAMEA1523665,ERR125600,goig,duplicate of another genome ID
