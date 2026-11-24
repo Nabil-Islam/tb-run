@@ -25,6 +25,22 @@ git -c advice.detachedHead=false clone --quiet --depth 1 --branch "v${VERSION}" 
 cd "$src/TBProfiler"
 "$ENV/bin/python" -m pip install --no-deps --ignore-installed --no-build-isolation --no-user .
 
+# pathogen-profiler 5.5.0 bug: when delly fails it logs "Delly failed, skipping" but
+# still passes None on, and the run crashes ('NoneType' object has no attribute
+# 'filename'). Skip the failed caller as intended; the sample then has no delly
+# structural-variant calls (the log says "Delly failed, skipping").
+"$ENV/bin/python" - <<'PY'
+import pathlib, pathogenprofiler
+f = pathlib.Path(pathogenprofiler.__file__).with_name("bam.py")
+s = f.read_text()
+old = "            vcf_files.append(vcf_file)\n"
+new = "            if vcf_file is not None:\n                vcf_files.append(vcf_file)\n"
+if new not in s:
+    assert s.count(old) == 1, "pathogen-profiler bam.py changed; review the delly patch"
+    f.write_text(s.replace(old, new))
+print("patched", f)
+PY
+
 cd db
 "$ENV/bin/samtools" dict who_v3/genome.fasta -o who_v3/genome.dict
 "$ENV/bin/samtools" faidx who_v3/genome.fasta
