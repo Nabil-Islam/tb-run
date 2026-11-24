@@ -223,7 +223,6 @@ rule combine_tbprofiler_reports:
 rule profile_sample_v3:
     output:
         report=V3_DIR / "{sample}/{sample}.results.json",
-        vcf=V3_DIR / "{sample}/{sample}.targets.vcf.gz",
         run_info=V3_DIR / "{sample}/run_info.tsv",
     log:
         LOGS / f"profile_sample_v3/{V3['tag']}/{{sample}}.log",
@@ -306,7 +305,7 @@ rule profile_sample_v3:
         fi
 
         tb-profiler profile "${{input_arg[@]}}" --db {params.db} --platform {params.tech} \
-            -p {wildcards.sample} -t {threads} --no_trim --temp "$tmpdir" --dir "$tmpdir/out" >&2
+            -p {wildcards.sample} -t {threads} --no_trim --no_clean --temp "$tmpdir" --dir "$tmpdir/out" >&2
 
         json="$tmpdir/out/results/{wildcards.sample}.results.json"
         mapped=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['qc'].get('num_reads_mapped', 1))" "$json")
@@ -317,7 +316,16 @@ rule profile_sample_v3:
 
         mkdir -p "$(dirname {output.report})"
         mv "$json" {output.report}
-        mv "$tmpdir/out/vcf/{wildcards.sample}.targets.vcf.gz" {output.vcf}
+        # Keep the target-region VCF if there is one (not a declared output: TB-Profiler 7
+        # with pathogen-profiler 5.5 names it <tmp>.merged.vcf.gz or
+        # <tmp>.short_variants.targets.vcf.gz, and no longer copies it to out/vcf/)
+        for v in "$tmpdir/out/vcf/{wildcards.sample}.targets.vcf.gz" "$tmpdir"/*.merged.vcf.gz "$tmpdir"/*.short_variants.targets.vcf.gz; do
+            if [ -s "$v" ]; then
+                cp "$v" "$(dirname {output.report})/{wildcards.sample}.targets.vcf.gz"
+                echo "kept VCF: $(basename "$v")" >&2
+                break
+            fi
+        done
         if [ -s run_info.tsv ]; then mv run_info.tsv {output.run_info}; else touch {output.run_info}; fi
         """
 
