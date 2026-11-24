@@ -13,3 +13,4 @@ tmp/
 *.tar.gz
 tmp/
 miniforge3/
+archive/
